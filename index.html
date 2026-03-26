@@ -9,100 +9,118 @@
 <meta name="theme-color" content="#1b4332">
 
 <style>
-  body {
-    font-family: 'Trebuchet MS', sans-serif;
-    text-align: center;
-    padding: 20px;
-    margin: 0;
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
 
-    background: radial-gradient(circle at center, #ecffb0 0%, #b9f624 40%, #6a9e00 100%);
-    min-height: 100vh;
-    color: #fff;
+  background: radial-gradient(circle at center, #ecffb0 0%, #b9f624 40%, #6a9e00 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+h1 {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+
+/* BOTÕES */
+button {
+  margin: 8px;
+  padding: 14px 22px;
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+  border: 2px solid #3c096c;
+  border-radius: 14px;
+
+  background: linear-gradient(to bottom, #d0bfff, #9d4edd);
+  color: white;
+
+  box-shadow:
+    0 6px #5a189a,
+    0 8px 14px rgba(0,0,0,0.5);
+
+  transition: all 0.15s ease;
+}
+
+button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px #5a189a,
+    0 4px 6px rgba(0,0,0,0.5);
+}
+
+/* TOGGLE */
+.toggle-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: red;
+  box-shadow: 0 0 5px rgba(0,0,0,0.6);
+}
+
+.led.on {
+  background: lime;
+  box-shadow: 0 0 10px lime;
+}
+
+/* CARTAS */
+.area-cartas {
+  margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carta {
+  margin: 12px;
+  text-align: center;
+  animation: surgir 0.5s ease;
+}
+
+@keyframes surgir {
+  from {
+    transform: translateY(-40px) scale(0.8);
+    opacity: 0;
   }
-
-  h1 {
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
+}
 
-  /* BOTÕES RPG */
-  button {
-    margin: 8px;
-    padding: 12px 18px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
+img {
+  width: 140px;
+  border-radius: 12px;
 
-    border: 2px solid #081c15;
-    border-radius: 14px;
+  box-shadow:
+    0 12px 18px rgba(0,0,0,0.6),
+    0 6px 8px rgba(0,0,0,0.4);
 
-    background: linear-gradient(to bottom, #b185db, #7b2cbf);
-    color: #fff;
+  border: 2px solid rgba(255,255,255,0.2);
 
-    box-shadow:
-      0 6px #5a189a,
-      0 8px 14px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
 
-    transition: all 0.15s ease;
-  }
+.invertida {
+  transform: rotate(180deg);
+}
 
-  button:active {
-    transform: translateY(4px);
-    box-shadow:
-      0 2px #1b4332,
-      0 4px 6px rgba(0,0,0,0.5);
-  }
-
-  .area-cartas {
-    margin-top: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .carta {
-    margin: 12px;
-    text-align: center;
-    animation: surgir 0.5s ease;
-  }
-
-  /* ANIMAÇÃO DE COMPRA */
-  @keyframes surgir {
-    from {
-      transform: translateY(-40px) scale(0.8);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-  }
-
-  img {
-    width: 400px;
-    border-radius: 12px;
-
-    box-shadow:
-      0 12px 18px rgba(0,0,0,0.6),
-      0 6px 8px rgba(0,0,0,0.4);
-
-    border: 2px solid rgba(255,255,255,0.2);
-
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  img:hover {
-    transform: scale(1.08);
-    box-shadow:
-      0 16px 22px rgba(0,0,0,0.7),
-      0 8px 12px rgba(0,0,0,0.5);
-  }
-
-  .carta p {
-    margin-bottom: 6px;
-    font-weight: bold;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-  }
+.carta p {
+  margin-bottom: 6px;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
 </style>
 </head>
 
@@ -114,55 +132,30 @@
 <button onclick="embaralharDeck()">Embaralhar o Deck</button>
 <button onclick="resetarDeck()">Recolher cartas e Embaralhar o Deck</button>
 
+<div class="toggle-container">
+  <button onclick="toggleInvertida()">Modo Carta Invertida</button>
+  <div id="led" class="led"></div>
+</div>
+
 <div class="area-cartas" id="mesa"></div>
 
 <script>
 
 //////////////////////////////////////////////////////////////
-// 🔴 BANCO DE DADOS (EDITE AQUI)
+// 🔴 BANCO DE DADOS
 //////////////////////////////////////////////////////////////
 const bancoOriginal = [
   { nome: "Carta 1", arquivo: "imagens/carta01.png" },
   { nome: "Carta 2", arquivo: "imagens/carta02.png" },
   { nome: "Carta 3", arquivo: "imagens/carta03.png" },
   { nome: "Carta 4", arquivo: "imagens/carta04.png" },
-  { nome: "Carta 5", arquivo: "imagens/carta05.png" },
-  { nome: "Carta 6", arquivo: "imagens/carta06.png" },
-  { nome: "Carta 7", arquivo: "imagens/carta07.png" },
-  { nome: "Carta 8", arquivo: "imagens/carta08.png" },
-  { nome: "Carta 9", arquivo: "imagens/carta09.png" },
-  { nome: "Carta 10", arquivo: "imagens/carta10.png" },
-  { nome: "Carta 11", arquivo: "imagens/carta11.png" },
-  { nome: "Carta 12", arquivo: "imagens/carta12.png" },
-  { nome: "Carta 13", arquivo: "imagens/carta13.png" },
-  { nome: "Carta 14", arquivo: "imagens/carta14.png" },
-  { nome: "Carta 15", arquivo: "imagens/carta15.png" },
-  { nome: "Carta 16", arquivo: "imagens/carta16.png" },
-  { nome: "Carta 17", arquivo: "imagens/carta17.png" },
-  { nome: "Carta 18", arquivo: "imagens/carta18.png" },
-  { nome: "Carta 19", arquivo: "imagens/carta19.png" },
-  { nome: "Carta 20", arquivo: "imagens/carta20.png" },
-  { nome: "Carta 21", arquivo: "imagens/carta21.png" },
-  { nome: "Carta 22", arquivo: "imagens/carta22.png" },
-  { nome: "Carta 23", arquivo: "imagens/carta23.png" },
-  { nome: "Carta 24", arquivo: "imagens/carta24.png" },
-  { nome: "Carta 25", arquivo: "imagens/carta25.png" },
-  { nome: "Carta 26", arquivo: "imagens/carta26.png" },
-  { nome: "Carta 27", arquivo: "imagens/carta27.png" },
-  { nome: "Carta 28", arquivo: "imagens/carta28.png" },
-  { nome: "Carta 29", arquivo: "imagens/carta29.png" },
-  { nome: "Carta 30", arquivo: "imagens/carta30.png" },
-  { nome: "Carta 31", arquivo: "imagens/carta31.png" },
-  { nome: "Carta 32", arquivo: "imagens/carta32.png" },
-  { nome: "Carta 33", arquivo: "imagens/carta33.png" },
-  { nome: "Carta 34", arquivo: "imagens/carta34.png" },
-  { nome: "Carta 35", arquivo: "imagens/carta35.png" },
-  { nome: "Carta 36", arquivo: "imagens/carta36.png" }
+  { nome: "Carta 5", arquivo: "imagens/carta05.png" }
 ];
 //////////////////////////////////////////////////////////////
 
 let deck = [];
 let cartasRetiradas = [];
+let modoInvertido = false;
 
 resetarDeck();
 
@@ -196,15 +189,24 @@ function resetarDeck() {
   document.getElementById("mesa").innerHTML = "";
 }
 
+function toggleInvertida() {
+  modoInvertido = !modoInvertido;
+
+  const led = document.getElementById("led");
+  led.classList.toggle("on", modoInvertido);
+}
+
 function mostrarCarta(carta) {
   const mesa = document.getElementById("mesa");
 
   const div = document.createElement("div");
   div.className = "carta";
 
+  const invertida = modoInvertido && Math.random() < 0.5;
+
   div.innerHTML = `
     <p>${carta.nome}</p>
-    <img src="${carta.arquivo}">
+    <img src="${carta.arquivo}" class="${invertida ? 'invertida' : ''}">
   `;
 
   mesa.appendChild(div);
